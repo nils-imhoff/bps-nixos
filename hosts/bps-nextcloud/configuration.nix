@@ -13,7 +13,6 @@
 
     loader.grub = {
       enable = true;
-      version = 2;
       forceInstall = true;
       device = "/dev/sda";
     };
@@ -54,7 +53,7 @@
 
   services.openssh = {
     enable = true;
-    permitRootLogin = "yes";
+    settings.PermitRootLogin = "yes";
     passwordAuthentication = false;
   };
 
