@@ -43,7 +43,7 @@
 
   nix.gc = {
     automatic = true;
-    dates = [ "monthly" ]; # Changed to a list
+    dates = "monthly";
     options = "--delete-older-than 30d";
   };
 
