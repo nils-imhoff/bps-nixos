@@ -21,7 +21,6 @@
 
   networking = {
     hostName = "bps-nextcloud";
-    useDHCP = false;
 
     interfaces = {
       eth0.useDHCP = true;
