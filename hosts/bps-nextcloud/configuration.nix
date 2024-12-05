@@ -1,4 +1,4 @@
-{ config,lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports =
@@ -21,6 +21,7 @@
 
   networking = {
     hostName = "bps-nextcloud";
+    useDHCP = false;
 
     interfaces = {
       eth0.useDHCP = true;
@@ -33,17 +34,17 @@
     };
   };
 
-  nix = {
-    package = pkgs.nixVersions.nix;
+  nixpkgs.config = {
+    package = pkgs.nix;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
+  };
 
-    gc = {
-      automatic = true;
-      dates = "monthly";
-      options = "--delete-older-than 30d";
-    };
+  nix.gc = {
+    automatic = true;
+    dates = [ "monthly" ]; # Changed to a list
+    options = "--delete-older-than 30d";
   };
 
   environment.systemPackages = with pkgs; [
@@ -64,6 +65,5 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICedqgmNa9A1H1af6TR628y0Rarc9UF8e9VjLc3xNlfTi"
   ];
 
-
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.05"; # Ensure this matches your NixOS version
 }
