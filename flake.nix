@@ -5,7 +5,7 @@
 
   inputs.nixos-hardware.url = "github:NixOS/nixos-hardware";
 
-  outputs = { self, nixpkgs}: {
+  outputs = { self, nixpkgs, nixos-hardware}: {
 
     nixosModules =  builtins.listToAttrs (map (x: {
       name = x;
