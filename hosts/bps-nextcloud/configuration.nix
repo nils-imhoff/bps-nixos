@@ -54,7 +54,7 @@
   services.openssh = {
     enable = true;
     settings.PermitRootLogin = "yes";
-    passwordAuthentication = false;
+    settings.PasswordAuthentication = true;
   };
 
   # this comes with SSH jail by default
