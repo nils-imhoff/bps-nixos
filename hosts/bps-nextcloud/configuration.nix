@@ -50,19 +50,9 @@
      git
      vim
      sops
-     pinentry-curses  # Add pinentry-curses for terminal-based passphrase entry
+     pinentry-curses
+     gnupg
    ];
-
-   # Configure GnuPG and its agent
-   programs.gnupg = {
-     enable = true;  # Enable GnuPG
-     agent = {
-       enable = true;  # Enable the GPG agent
-       pinentryFlavor = "curses";
-       enableSSHSupport = true;
-
-     };
-   };
 
   services.openssh = {
     enable = true;
