@@ -17,11 +17,12 @@ in
   services.mysqlBackup.databases = [ "nextcloud" ];
 
   services.restic.backups.${backupName} = {
-      paths = [ "/var/lib/nextcloud/data" ];
-      repository = "file://${resticRepositoryPath}";
-      passwordFile = "/var/run/secrets/restic-password";
-    };
+    paths = [ "/var/lib/nextcloud/data" ];
+    repository = "file://${resticRepositoryPath}";
+    passwordFile = "/var/run/secrets/restic-password";
+  };
 
+  # SOPS Secrets Configuration
   sops.secrets = {
     nextcloud-admin-password = {
       sopsFile = ./secrets.yaml;
@@ -39,29 +40,64 @@ in
       group = "nextcloud";
     };
 
-    nextcloud-secrets = {
+    nextcloud-app-secret = {
       sopsFile = ./secrets.yaml;
-      key = "nextcloud-secrets";
+      key = "nextcloud-app-secret";
       mode = "0600";
       owner = "nextcloud";
       group = "nextcloud";
     };
-    restic-password = { # Add this entry for the Restic password
+
+    nextcloud-encryption-key = {
+      sopsFile = ./secrets.yaml;
+      key = "nextcloud-encryption-key";
+      mode = "0600";
+      owner = "nextcloud";
+      group = "nextcloud";
+    };
+
+    nextcloud-csrf-token = {
+      sopsFile = ./secrets.yaml;
+      key = "nextcloud-csrf-token";
+      mode = "0600";
+      owner = "nextcloud";
+      group = "nextcloud";
+    };
+
+    nextcloud-api-key = {
+      sopsFile = ./secrets.yaml;
+      key = "nextcloud-api-key";
+      mode = "0600";
+      owner = "nextcloud";
+      group = "nextcloud";
+    };
+
+    restic-password = {
       sopsFile = ./secrets.yaml;
       key = "restic-password";
-      mode = "0400"; # More restrictive if preferred
-      owner = "root"; # Or another appropriate user
+      mode = "0400";
+      owner = "root";
       group = "root";
     };
   };
 
+  # Combine Multiple Secrets into a Single File for Nextcloud
+  environment.etc."nextcloud_secrets.json".text = ''
+    {
+      "app_secret": "${config.sops.secrets.nextcloud-app-secret.value}",
+      "encryption_key": "${config.sops.secrets.nextcloud-encryption-key.value}",
+      "csrf_token": "${config.sops.secrets.nextcloud-csrf-token.value}",
+      "api_key": "${config.sops.secrets.nextcloud-api-key.value}"
+    }
+  '';
+
+  # Nextcloud Service Configuration
   services.nextcloud = {
     enable = true;
     package = pkgs.nextcloud30;
     https = true;
     hostName = host;
-    secretFile = "/var/run/secrets/nextcloud-secrets";
-
+    secretFile = "/etc/nextcloud_secrets.json";
     phpOptions."opcache.interned_strings_buffer" = "13";
 
     config = {
