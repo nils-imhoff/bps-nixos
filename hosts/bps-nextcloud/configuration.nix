@@ -58,15 +58,9 @@
      enable = true;  # Enable GnuPG
      agent = {
        enable = true;  # Enable the GPG agent
-       pinentryFlavor = "curses";  # Use pinentry-curses for passphrase prompts
-       # Optional: Enable SSH support if you plan to use GPG as an SSH agent
+       pinentryFlavor = "curses";
        enableSSHSupport = true;
-       # Additional GPG agent configurations
-       extraConfig = ''
-         default-cache-ttl 600
-         max-cache-ttl 7200
-         allow-loopback-pinentry
-       '';
+
      };
    };
 
