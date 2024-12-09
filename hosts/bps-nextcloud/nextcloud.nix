@@ -119,7 +119,7 @@ in
 
   security.acme = {
     acceptTerms = true;
-    email = "lexi@bps-pforzheim.de";
+    defaults.email = "lexi@bps-pforzheim.de";
     certs = {
       "${host}" = {
         webroot = "/var/lib/acme/acme-challenge";

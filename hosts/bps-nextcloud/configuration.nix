@@ -37,6 +37,7 @@
     package = pkgs.nix;
     extraOptions = ''
       experimental-features = nix-command flakes
+      download-buffer-size = 10485760
     '';
   };
 
