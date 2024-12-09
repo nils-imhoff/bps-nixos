@@ -4,7 +4,8 @@
 }:
 let
   host = "bps-cloud.de";
-  backup-name = "restic";
+  backupName = "nexctloud";
+  resticRepositoryPath = "/var/backups/restic/nextcloud";
 in
 {
   users.groups.nextcloud = { };
@@ -15,7 +16,18 @@ in
 
   services.mysqlBackup.databases = [ "nextcloud" ];
 
-  services.restic.backups.${backup-name}.paths = ["/var/lib/nextcloud/data"];
+  services.restic.backups.${backupName} = {
+      paths = [ "/var/lib/nextcloud/data" ];
+      repository = "file://${resticRepositoryPath}";
+      passwordFile = "/var/run/secrets/restic-password";
+      interval = "daily";
+      keep = {
+        latest = 10;
+        daily = 7;
+        weekly = 4;
+        monthly = 12;
+      };
+    };
 
   sops.secrets = {
     nextcloud-admin-password = {
@@ -40,6 +52,13 @@ in
       mode = "0600";
       owner = "nextcloud";
       group = "nextcloud";
+    };
+    restic-password = { # Add this entry for the Restic password
+      sopsFile = ./secrets.yaml;
+      key = "restic-password";
+      mode = "0400"; # More restrictive if preferred
+      owner = "root"; # Or another appropriate user
+      group = "root";
     };
   };
 
