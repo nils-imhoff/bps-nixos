@@ -19,21 +19,24 @@ in
 
   sops.secrets = {
     nextcloud-admin-password = {
-      sopsFile = ./secrets.yaml.enc;
+      sopsFile = ./secrets.yaml;
+      key = "nextcloud-admin-password";
       mode = "0600";
       owner = "nextcloud";
       group = "nextcloud";
     };
 
     nextcloud-db-password = {
-      sopsFile = ./secrets.yaml.enc;
+      sopsFile = ./secrets.yaml;
+      key = "nextcloud-db-password";
       mode = "0600";
       owner = "nextcloud";
       group = "nextcloud";
     };
 
     nextcloud-secrets = {
-      sopsFile = ./secrets.yaml.enc;
+      sopsFile = ./secrets.yaml;
+      key = "nextcloud-secrets";
       mode = "0600";
       owner = "nextcloud";
       group = "nextcloud";

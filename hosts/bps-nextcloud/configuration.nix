@@ -51,7 +51,7 @@
      vim
      sops
      pinentry-curses
-     gnupg
+     age
    ];
 
   services.openssh = {
