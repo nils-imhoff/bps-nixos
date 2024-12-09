@@ -57,7 +57,7 @@ in
 
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud28;
+    package = pkgs.nextcloud30;
     https = true;
     hostName = host;
     secretFile = "/var/run/secrets/nextcloud-secrets";
