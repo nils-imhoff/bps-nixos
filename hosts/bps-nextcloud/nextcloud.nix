@@ -20,13 +20,6 @@ in
       paths = [ "/var/lib/nextcloud/data" ];
       repository = "file://${resticRepositoryPath}";
       passwordFile = "/var/run/secrets/restic-password";
-      interval = "daily";
-      keep = {
-        latest = 10;
-        daily = 7;
-        weekly = 4;
-        monthly = 12;
-      };
     };
 
   sops.secrets = {
